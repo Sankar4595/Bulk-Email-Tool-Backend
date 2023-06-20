@@ -131,13 +131,13 @@ router.delete("/:id", async (req, res) => {
 });
 
 /* Update User */
-router.put("/:id", async (req, res) => {
+router.put("/edituser", async (req, res) => {
   try {
-    let user = await UserModel.findOne({ _id: req.params.id });
+    let data = await jwt.decode(req.body.token);
+    req.body.token = data.email;
+    let user = await UserModel.findOne({ email: req.body.token });
     if (user) {
-      let hasedPassword = await HashPassword(req.body.password);
-      req.body.password = hasedPassword;
-      let user = await UserModel.updateOne({ _id: req.params.id }, req.body);
+      let user = await UserModel.updateOne(req.body);
       res.status(201).send({
         message: "User Update Successfull",
       });
