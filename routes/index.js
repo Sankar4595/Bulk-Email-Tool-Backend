@@ -30,6 +30,7 @@ router.post("/sendmail", async (req, res) => {
       let senderName = user.firstName;
 
       let { toEmail } = req.body;
+      console.log(toEmail);
 
       let ToEmail = "";
       for (let i = 0; i < toEmail.length; i++) {
